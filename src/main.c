@@ -15,6 +15,7 @@
  */
 
 #include "logger.h"
+#include "window.h"
 
 #include <stdlib.h>
 
@@ -38,11 +39,19 @@ int main(int arg_count, const char * args[]) {
     fputs("logger could not be started\n", stderr);
     return EXIT_FAILURE;
   }
+
+  int result = init_window();
   
-  for(int i = 0; i < 1000; ++i) {
-    LOG_INFO("%d %d %d, testing", 1, 2, i);
+  if(result == 0) {
+    dispose_window();
   }
+  
   stop_logger();
   dispose_logger();
-  return EXIT_SUCCESS;
+  
+  if(result == 0) {
+    return EXIT_SUCCESS;
+  } else {
+    return EXIT_FAILURE;
+  }
 }

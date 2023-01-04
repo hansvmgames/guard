@@ -19,6 +19,7 @@ AC_CHECK_HEADERS([assert.h stdarg.h stdbool.h stdio.h stdlib.h])
 
 # Checks for library functions.
 AX_PTHREAD([], [AC_ERROR([posix threading library not found])])
+AC_SEARCH_LIBS([SDL_Init], [SDL2], [], [AC_ERROR([SDL2 library not found])])
 
 AC_CONFIG_FILES([Makefile
                  src/Makefile])
