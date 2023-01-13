@@ -13,7 +13,7 @@ AC_PROG_CC
 # Checks for libraries.
 
 # Checks for header files.
-AC_CHECK_HEADERS([assert.h stdarg.h stdbool.h stdio.h stdlib.h])
+AC_CHECK_HEADERS([assert.h stdarg.h stdbool.h stdio.h stdlib.h string.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
 

@@ -14,31 +14,48 @@
  * 
  */
 
-#include "status.h"
+#ifndef SETTINGS_H
+#define SETTINGS_H
 
-#include <pthread.h>
+/**
+ * Video settings
+ */
+struct video_settings {
 
-__thread enum status_code cur_status = STATUS_CODE_OK;
+  /**
+   * The screen width in pixels
+   */
+  int screen_width;
 
-static const char * status_labels[] = {
-				       "ok",
-				       "resource allocation failed",
-				       "invalid argument",
-				       "already exists"
+  /**
+   * The screen height in pixels
+   */
+  int screen_height;
+    
 };
 
-void clear_status() {
-  cur_status = STATUS_CODE_OK;
-}
+/**
+ * Application settings
+ */
+struct settings {
 
-void set_status(enum status_code status) {
-  cur_status = status;
-}
+  /**
+   * The video settings
+   */
+  struct video_settings video;
+};
 
-enum status_code get_status() {
-  return cur_status;
-}
+/**
+ * Loads the settings
+ * \param settings a pointer to a settings buffer
+ * \return 0 on success, -1 on error
+ */
+int load_settings(struct settings * settings);
 
-const char * get_status_label(enum status_code status) {
-  return status_labels[(size_t)status];
-}
+/**
+ * Disposes the settings
+ * \param settings the settings
+ */
+void dispose_settings(struct settings * settings);
+
+#endif

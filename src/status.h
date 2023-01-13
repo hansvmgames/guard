@@ -24,7 +24,21 @@ enum status_code {
 		  /**
 		   * Everything is OK
 		   */
-		  STATUS_CODE_OK
+		  STATUS_CODE_OK,
+		  /**
+		   * Resource allocation failed
+		   */
+		  STATUS_CODE_BAD_ALLOC,
+
+		  /**
+		   * Invalid argument
+		   */
+		  STATUS_CODE_BAD_ARG,
+
+		  /**
+		   * Could not create / insert item as it already exists
+		   */
+		  STATUS_CODE_ALREADY_EXISTS,
 };
 
 /**

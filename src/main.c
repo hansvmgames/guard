@@ -15,9 +15,48 @@
  */
 
 #include "logger.h"
+#include "rb_tree.h"
+#include "settings.h"
 #include "window.h"
 
 #include <stdlib.h>
+
+int cmp_test(const void * a, const void * b) {
+  return *((const int *)a) - *((const int *)b);
+}
+
+int print_test(const void * key, const void * value) {
+  LOG_DEBUG("(%d, %s)", *((const int *)key), (const char *)value);
+  return 0;
+}
+
+void test() {
+
+  struct rb_tree tree;
+  init_rb_tree(&tree, cmp_test, NULL, NULL);
+  
+  int keys[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+  const char * values[] =  {
+			    "zero",
+			    "one",
+			    "two",
+			    "three",
+			    "four",
+			    "five",
+			    "six",
+			    "seven",
+			    "eight",
+			    "nine"
+  };
+  for(size_t i = 0; i < 10; ++i) {
+    if(insert_into_rb_tree(&tree, &keys[i], (void *)values[i]) != 0) {
+      LOG_ERROR("could not insert (%d, %s)", keys[i], values[i]);
+    }
+  }
+  walk_rb_tree(&tree, print_test);
+  
+  dispose_rb_tree(&tree);
+}
 
 /**
  * Main function
@@ -27,7 +66,7 @@
  */
 int main(int arg_count, const char * args[]) {
 
-  if(init_logger(LOG_LEVEL_INFO) != 0) {
+  if(init_logger(LOG_LEVEL_DEBUG) != 0) {
     fputs("logger failed to initialize\n", stderr);
     return EXIT_FAILURE;
   }
@@ -40,11 +79,20 @@ int main(int arg_count, const char * args[]) {
     return EXIT_FAILURE;
   }
 
-  int result = init_window();
+  test();
   
+  struct settings settings;
+
+  //load_settings(&settings);
+
+  int result = 0;
+  /*
+    int result = init_window();
+    
   if(result == 0) {
-    dispose_window();
+  dispose_window();
   }
+  */
   
   stop_logger();
   dispose_logger();
